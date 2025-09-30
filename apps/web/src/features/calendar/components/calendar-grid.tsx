@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from '#/components/ui/card';
 import type { Room, Reservation } from '../../rooms/types/types';
 import { CalendarCell } from './calendar-cell';
 import { ReservationModal } from './reservation-modal';
+import { ReservationPopover } from './reservation-popover';
 import {
 	getDaysInMonth,
 	getTurkishDayName,
@@ -124,6 +125,21 @@ export function CalendarGrid({ rooms, reservations, onCreateReservation }: Calen
 													return dStr >= reservation.checkIn && dStr <= reservation.checkOut;
 												});
 												spanDays = remainingDays.length;
+											}
+
+											// Render with popover if it's a reservation
+											if (reservation && isFirstDay) {
+												return (
+													<ReservationPopover key={`${room.id}-${dateStr}`} reservation={reservation} room={room}>
+														<CalendarCell
+															reservation={reservation}
+															isAvailable={false}
+															isFirstDay={isFirstDay}
+															isLastDay={isLastDay}
+															spanDays={spanDays}
+														/>
+													</ReservationPopover>
+												);
 											}
 
 											return (

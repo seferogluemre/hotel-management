@@ -1,13 +1,4 @@
 import type { Room } from '../types/types';
-import { getTodayString } from '../utils/date-utils';
-
-// Helper to get date strings relative to today
-const today = getTodayString();
-const getDateOffset = (days: number): string => {
-	const date = new Date();
-	date.setDate(date.getDate() + days);
-	return date.toISOString().split('T')[0];
-};
 
 export const rooms: Room[] = [
 	{
@@ -22,8 +13,8 @@ export const rooms: Room[] = [
 		floor: 1,
 		imageUrl: '/images/rooms/101.jpg',
 		guestName: 'Gülşah Koçak',
-		checkIn: getDateOffset(-5), // Checked in 5 days ago
-		checkOut: today, // Checking out today - should auto move to needs_cleaning
+		checkIn: '2025-08-31',
+		checkOut: '2025-09-07',
 	},
 	{
 		id: 'r-102',
@@ -37,8 +28,8 @@ export const rooms: Room[] = [
 		floor: 1,
 		imageUrl: '/images/rooms/102.jpg',
 		guestName: 'Ahmet Yılmaz',
-		checkIn: getDateOffset(-3), // Checked in 3 days ago
-		checkOut: getDateOffset(-1), // Checked out yesterday
+		checkIn: '2025-09-04',
+		checkOut: '2025-09-07',
 	},
 	{
 		id: 'r-103',
@@ -52,8 +43,8 @@ export const rooms: Room[] = [
 		floor: 1,
 		imageUrl: '/images/rooms/103.jpg',
 		guestName: 'Ayşe Demir',
-		checkIn: getDateOffset(-1), // Checked in yesterday
-		checkOut: getDateOffset(10), // Will check out in 10 days
+		checkIn: '2025-09-02',
+		checkOut: '2025-10-12',
 	},
 	{
 		id: 'r-104',
@@ -67,8 +58,8 @@ export const rooms: Room[] = [
 		floor: 1,
 		imageUrl: '/images/rooms/104.jpg',
 		guestName: 'Mehmet Kaya',
-		checkIn: today, // Checking in today
-		checkOut: getDateOffset(5), // Will check out in 5 days
+		checkIn: '2025-09-09',
+		checkOut: '2025-09-14',
 	},
 	{
 		id: 'r-105',
@@ -81,7 +72,6 @@ export const rooms: Room[] = [
 		amenities: ['WiFi', 'AC', 'TV'],
 		floor: 1,
 		imageUrl: '/images/rooms/105.jpg',
-		// Available for today's check-in
 	},
 	{
 		id: 'r-106',
@@ -90,13 +80,10 @@ export const rooms: Room[] = [
 		pricePerNight: 250,
 		currency: 'EUR',
 		capacity: 4,
-		status: 'needs_cleaning',
+		status: 'available',
 		amenities: ['WiFi', 'AC', 'TV', 'Mini Bar', 'Balcony', 'Jacuzzi'],
 		floor: 1,
 		imageUrl: '/images/rooms/106.jpg',
-		guestName: 'Gülşah Koçak',
-		checkIn: getDateOffset(-7), // Checked in 7 days ago
-		checkOut: getDateOffset(-2), // Checked out 2 days ago
 	},
 	{
 		id: 'r-107',
@@ -109,10 +96,6 @@ export const rooms: Room[] = [
 		amenities: ['WiFi', 'AC', 'TV'],
 		floor: 1,
 		imageUrl: '/images/rooms/107.jpg',
-		// Future check-in scheduled
-		guestName: 'Can Yılmaz',
-		checkIn: getDateOffset(2), // Will check in in 2 days
-		checkOut: getDateOffset(5), // Will check out in 5 days
 	},
 	{
 		id: 'r-108',
@@ -149,8 +132,5 @@ export const rooms: Room[] = [
 		amenities: ['WiFi', 'AC', 'TV', 'Mini Bar'],
 		floor: 1,
 		imageUrl: '/images/rooms/110.jpg',
-		guestName: 'Fatma Şahin',
-		checkIn: today, // Checking in today
-		checkOut: getDateOffset(2), // Will check out in 2 days
 	},
 ];

@@ -15,6 +15,7 @@ export default function RoomsPage() {
 	const navigate = useNavigate();
 	const [rooms, setRooms] = useState<Room[]>(initialRooms);
 
+
 	// Auto-update room statuses based on today's date
 	useEffect(() => {
 		const today = new Date().toISOString().split('T')[0];
