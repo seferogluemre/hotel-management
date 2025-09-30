@@ -8,7 +8,6 @@ interface CalendarCellProps {
 	isLastDay?: boolean;
 	spanDays?: number;
 	onClick?: () => void;
-	children?: React.ReactNode;
 }
 
 export function CalendarCell({
@@ -18,7 +17,6 @@ export function CalendarCell({
 	isLastDay,
 	spanDays = 1,
 	onClick,
-	children,
 }: CalendarCellProps) {
 	// If there's a reservation but it's not the first day, don't render anything (colspan handles it)
 	if (reservation && !isFirstDay) {
@@ -44,7 +42,7 @@ export function CalendarCell({
 
 	// Reservation cell
 	if (reservation) {
-		const cellContent = (
+		return (
 			<div
 				className={cn(
 					'flex flex-col justify-center px-3 py-3 text-xs transition-colors cursor-pointer',
@@ -64,13 +62,6 @@ export function CalendarCell({
 				)}
 			</div>
 		);
-
-		// If children is provided, wrap in it (for popover)
-		if (children) {
-			return <>{children}</>;
-		}
-
-		return cellContent;
 	}
 
 	// Empty cell (should not happen, but just in case)

@@ -131,13 +131,24 @@ export function CalendarGrid({ rooms, reservations, onCreateReservation }: Calen
 											if (reservation && isFirstDay) {
 												return (
 													<ReservationPopover key={`${room.id}-${dateStr}`} reservation={reservation} room={room}>
-														<CalendarCell
-															reservation={reservation}
-															isAvailable={false}
-															isFirstDay={isFirstDay}
-															isLastDay={isLastDay}
-															spanDays={spanDays}
-														/>
+														<div
+															className={cn(
+																'flex flex-col justify-center px-3 py-3 text-xs transition-colors cursor-pointer',
+																'bg-blue-500 text-white hover:bg-blue-600',
+																'dark:bg-blue-600 dark:hover:bg-blue-700',
+																'border-r border-b border-blue-600 dark:border-blue-700',
+																isFirstDay && 'rounded-l-md',
+																isLastDay && 'rounded-r-md'
+															)}
+															style={{
+																gridColumn: spanDays > 1 ? `span ${spanDays}` : undefined,
+															}}
+														>
+															<div className="font-semibold truncate">{reservation.guestName}</div>
+															{reservation.bookingChannel && (
+																<div className="text-[10px] opacity-90 truncate">{reservation.bookingChannel}</div>
+															)}
+														</div>
 													</ReservationPopover>
 												);
 											}
