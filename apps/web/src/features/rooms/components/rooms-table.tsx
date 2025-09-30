@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '#/components/ui/table';
 import { Button } from '#/components/ui/button';
-import type { Room } from '../types';
+import type { Room } from '../types/types';
 import { RoomStatusBadge } from './room-status-badge';
 
 export function RoomsTable({ rooms, onView }: { rooms: Room[]; onView?: (roomId: string) => void }) {

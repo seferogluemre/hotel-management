@@ -1,4 +1,4 @@
-import type { Reservation } from '../types';
+import type { Reservation } from '../types/types';
 
 export const reservations: Reservation[] = [
 	{

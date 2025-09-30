@@ -2,8 +2,8 @@ import { Outlet } from '@tanstack/react-router';
 import Cookies from 'js-cookie';
 import { SidebarProvider } from '#/components/ui/sidebar';
 import { SearchProvider } from '#/context/search-context';
+import { AppSidebar } from '#/components/layout/app-sidebar';
 import { cn } from '#/lib/utils';
-import { Header } from './header';
 
 interface Props {
   children?: React.ReactNode;
@@ -14,7 +14,7 @@ export function AuthenticatedLayout({ children }: Props) {
   return (
     <SearchProvider>
       <SidebarProvider defaultOpen={defaultOpen}>
-        <Header />
+        <AppSidebar />
         <div
           id="content"
           className={cn(

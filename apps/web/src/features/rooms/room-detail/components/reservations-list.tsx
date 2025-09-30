@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '#/components/ui/table';
-import type { Reservation } from '../../types';
+import type { Reservation } from '../../types/types';
 
 export function ReservationsList({ reservations }: { reservations: Reservation[] }) {
 	return (

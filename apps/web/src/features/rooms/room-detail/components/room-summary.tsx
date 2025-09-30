@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card';
-import type { Room } from '../../types';
+import type { Room } from '../../types/types';
 import { RoomStatusBadge } from '../../components/room-status-badge';
 
 export function RoomSummary({ room }: { room: Room }) {
