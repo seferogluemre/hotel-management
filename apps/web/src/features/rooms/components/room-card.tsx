@@ -65,14 +65,6 @@ export function RoomCard({ room, onView, onClean, onReserve }: RoomCardProps) {
 								<Eye className="mr-2 h-4 w-4" />
 								Detay
 							</DropdownMenuItem>
-							<DropdownMenuItem>
-								<Edit className="mr-2 h-4 w-4" />
-								Düzenle
-							</DropdownMenuItem>
-							<DropdownMenuItem onClick={() => onReserve?.(room)}>
-								<Calendar className="mr-2 h-4 w-4" />
-								Rezervasyon Yap
-							</DropdownMenuItem>
 							{showCleaningOption && (
 								<>
 									<DropdownMenuSeparator />
