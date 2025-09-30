@@ -15,20 +15,32 @@ export default function RoomsPage() {
 	const navigate = useNavigate();
 	const [rooms, setRooms] = useState<Room[]>(initialRooms);
 
-	// Auto-update room statuses based on check-out dates
+	// Auto-update room statuses based on today's date
 	useEffect(() => {
 		const today = new Date().toISOString().split('T')[0];
 		
 		setRooms((prevRooms) =>
 			prevRooms.map((room) => {
-				// If check-out is today or in the past, and room is occupied, mark as needs cleaning
-				if (
-					room.checkOut &&
-					room.checkOut <= today &&
-					(room.status === 'occupied' || room.status === 'available')
-				) {
+				// If there's no reservation data, keep current status
+				if (!room.checkIn || !room.checkOut) {
+					return room;
+				}
+
+				// Check-out is in the past → needs cleaning
+				if (room.checkOut < today && room.status !== 'available') {
 					return { ...room, status: 'needs_cleaning' as RoomStatus };
 				}
+
+				// Currently staying (check-in <= today <= check-out) → occupied
+				if (room.checkIn <= today && today <= room.checkOut) {
+					return { ...room, status: 'occupied' as RoomStatus };
+				}
+
+				// Check-in is in the future → available (but keep reservation data)
+				if (room.checkIn > today && room.status !== 'available' && room.status !== 'needs_cleaning') {
+					return { ...room, status: 'available' as RoomStatus };
+				}
+
 				return room;
 			})
 		);

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader } from '#/components/ui/card';
 import { Button } from '#/components/ui/button';
-import { MoreVertical, ArrowRight, Eye, Edit, Calendar, Sparkles } from 'lucide-react';
+import { MoreVertical, Eye, Edit, Calendar, Sparkles } from 'lucide-react';
 import { RoomStatusBadge } from './room-status-badge';
 import type { Room } from '../types/types';
 import {
@@ -10,7 +10,6 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu';
-import { formatDateTurkish } from '../utils/date-utils';
 
 interface RoomCardProps {
 	room: Room;
@@ -35,20 +34,14 @@ export function RoomCard({ room, onView, onClean, onReserve }: RoomCardProps) {
 		}
 	};
 
-	// Only show guest info if:
-	// 1. Check-in is today or in the past AND check-out is today or in the future (currently staying)
-	// 2. Check-in is today (checking in today)
+	// Only show guest info if currently staying (today is between check-in and check-out)
 	const shouldShowGuestInfo = () => {
 		if (!room.guestName || !room.checkIn || !room.checkOut) return false;
 		
-		const checkInDate = room.checkIn;
-		const checkOutDate = room.checkOut;
 		const today = new Date().toISOString().split('T')[0];
 		
-		// Show if currently staying (check-in <= today AND check-out >= today)
-		if (checkInDate <= today && checkOutDate >= today) return true;
-		
-		return false;
+		// Show only if currently staying: check-in <= today <= check-out
+		return room.checkIn <= today && today <= room.checkOut;
 	};
 
 	const showCleaningOption = room.status === 'needs_cleaning';
@@ -105,17 +98,8 @@ export function RoomCard({ room, onView, onClean, onReserve }: RoomCardProps) {
 				<div className="text-sm text-muted-foreground">
 					{getRoomTypeLabel(room.type)}
 				</div>
-				{shouldShowGuestInfo() && room.guestName && (
-					<div className="space-y-2">
-						<div className="font-medium">{room.guestName}</div>
-						{room.checkIn && room.checkOut && (
-							<div className="flex items-center gap-2 text-sm text-muted-foreground">
-								<span>{formatDateTurkish(room.checkIn)}</span>
-								<ArrowRight className="h-3 w-3" />
-								<span>{formatDateTurkish(room.checkOut)}</span>
-							</div>
-						)}
-					</div>
+				{shouldShowGuestInfo() && (
+					<div className="font-medium">{room.guestName}</div>
 				)}
 			</CardContent>
 		</Card>
