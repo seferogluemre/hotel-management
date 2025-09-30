@@ -164,27 +164,18 @@ export default function Dashboard() {
 
 const topNav = [
   {
-    title: 'Overview',
-    href: 'dashboard/overview',
+    title: 'Gösterge Paneli',
+    href: '/',
     isActive: true,
-    disabled: false,
   },
   {
-    title: 'Customers',
-    href: 'dashboard/customers',
+    title: 'Odalar',
+    href: 'rooms',
     isActive: false,
-    disabled: true,
   },
   {
-    title: 'Products',
-    href: 'dashboard/products',
+    title: 'Takvim',
+    href: 'calendar',
     isActive: false,
-    disabled: true,
-  },
-  {
-    title: 'Settings',
-    href: 'dashboard/settings',
-    isActive: false,
-    disabled: true,
   },
 ];
