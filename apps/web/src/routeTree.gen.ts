@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedEmreRouteImport } from './routes/_authenticated/emre'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
 import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
@@ -28,11 +29,13 @@ import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedRoomsIndexRouteImport } from './routes/_authenticated/rooms/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
+import { Route as AuthenticatedCalendarIndexRouteImport } from './routes/_authenticated/calendar/index'
 import { Route as AuthenticatedAppsIndexRouteImport } from './routes/_authenticated/apps/index'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedRoomsRoomIdRouteImport } from './routes/_authenticated/rooms/$roomId'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -45,6 +48,11 @@ const authRouteRoute = authRouteRouteImport.update({
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEmreRoute = AuthenticatedEmreRouteImport.update({
+  id: '/emre',
+  path: '/emre',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const errors503Route = errors503RouteImport.update({
@@ -130,6 +138,12 @@ const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
   path: '/chats/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCalendarIndexRoute =
+  AuthenticatedCalendarIndexRouteImport.update({
+    id: '/calendar/',
+    path: '/calendar/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexRouteImport.update({
   id: '/apps/',
   path: '/apps/',
@@ -159,6 +173,12 @@ const AuthenticatedSettingsAccountRoute =
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedRoomsRoomIdRoute =
+  AuthenticatedRoomsRoomIdRouteImport.update({
+    id: '/rooms/$roomId',
+    path: '/rooms/$roomId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -172,11 +192,14 @@ export interface FileRoutesByFullPath {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/emre': typeof AuthenticatedEmreRoute
+  '/rooms/$roomId': typeof AuthenticatedRoomsRoomIdRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
+  '/calendar': typeof AuthenticatedCalendarIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/rooms': typeof AuthenticatedRoomsIndexRoute
@@ -195,11 +218,14 @@ export interface FileRoutesByTo {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/emre': typeof AuthenticatedEmreRoute
+  '/rooms/$roomId': typeof AuthenticatedRoomsRoomIdRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
+  '/calendar': typeof AuthenticatedCalendarIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/rooms': typeof AuthenticatedRoomsIndexRoute
@@ -221,12 +247,15 @@ export interface FileRoutesById {
   '/(errors)/404': typeof errors404Route
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
+  '/_authenticated/emre': typeof AuthenticatedEmreRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/rooms/$roomId': typeof AuthenticatedRoomsRoomIdRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
+  '/_authenticated/calendar/': typeof AuthenticatedCalendarIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/rooms/': typeof AuthenticatedRoomsIndexRoute
@@ -248,11 +277,14 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/emre'
+    | '/rooms/$roomId'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
     | '/apps'
+    | '/calendar'
     | '/chats'
     | '/help-center'
     | '/rooms'
@@ -271,11 +303,14 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/emre'
+    | '/rooms/$roomId'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
     | '/apps'
+    | '/calendar'
     | '/chats'
     | '/help-center'
     | '/rooms'
@@ -296,12 +331,15 @@ export interface FileRouteTypes {
     | '/(errors)/404'
     | '/(errors)/500'
     | '/(errors)/503'
+    | '/_authenticated/emre'
     | '/_authenticated/'
+    | '/_authenticated/rooms/$roomId'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
     | '/_authenticated/apps/'
+    | '/_authenticated/calendar/'
     | '/_authenticated/chats/'
     | '/_authenticated/help-center/'
     | '/_authenticated/rooms/'
@@ -341,6 +379,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/emre': {
+      id: '/_authenticated/emre'
+      path: '/emre'
+      fullPath: '/emre'
+      preLoaderRoute: typeof AuthenticatedEmreRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/(errors)/503': {
@@ -455,6 +500,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/calendar/': {
+      id: '/_authenticated/calendar/'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof AuthenticatedCalendarIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/apps/': {
       id: '/_authenticated/apps/'
       path: '/apps'
@@ -489,6 +541,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/account'
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
+    }
+    '/_authenticated/rooms/$roomId': {
+      id: '/_authenticated/rooms/$roomId'
+      path: '/rooms/$roomId'
+      fullPath: '/rooms/$roomId'
+      preLoaderRoute: typeof AuthenticatedRoomsRoomIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
@@ -536,8 +595,11 @@ const AuthenticatedSettingsRouteRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
+  AuthenticatedEmreRoute: typeof AuthenticatedEmreRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedRoomsRoomIdRoute: typeof AuthenticatedRoomsRoomIdRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
+  AuthenticatedCalendarIndexRoute: typeof AuthenticatedCalendarIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedRoomsIndexRoute: typeof AuthenticatedRoomsIndexRoute
@@ -547,8 +609,11 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedEmreRoute: AuthenticatedEmreRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedRoomsRoomIdRoute: AuthenticatedRoomsRoomIdRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
+  AuthenticatedCalendarIndexRoute: AuthenticatedCalendarIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedRoomsIndexRoute: AuthenticatedRoomsIndexRoute,
