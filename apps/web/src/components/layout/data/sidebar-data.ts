@@ -16,7 +16,7 @@ export const sidebarData: SidebarData = {
       title: 'Genel',
       items: [
         {
-          title: 'Gösterge Paneli',
+          title: 'İstatistik Paneli',
           url: '/',
           icon: IconLayoutDashboard,
         },
