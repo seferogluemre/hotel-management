@@ -67,8 +67,8 @@ export function CalendarGrid({ rooms, reservations, onCreateReservation }: Calen
 					</div>
 				</CardHeader>
 				<CardContent className="p-0">
-					<div className="overflow-x-auto">
-						<div className="inline-block min-w-full">
+					<div className="relative overflow-x-auto">
+						<div style={{ minWidth: 'max-content' }}>
 							{/* Calendar Grid */}
 							<div
 								className="grid"
@@ -77,7 +77,7 @@ export function CalendarGrid({ rooms, reservations, onCreateReservation }: Calen
 								}}
 							>
 								{/* Header Row */}
-								<div className="sticky left-0 z-20 flex items-center justify-center border-b-2 border-r bg-muted px-4 py-3 font-semibold">
+								<div className="sticky left-0 z-30 flex items-center justify-center border-b-2 border-r bg-muted px-4 py-3 font-semibold shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">
 									Oda
 								</div>
 								{daysInMonth.map((day) => (
@@ -95,40 +95,44 @@ export function CalendarGrid({ rooms, reservations, onCreateReservation }: Calen
 									</div>
 								))}
 
-								{/* Room Rows */}
 								{rooms.map((room) => (
-									<>
+									<div key={room.id} className="contents">
 										{/* Room Label */}
 										<div
-											key={`${room.id}-label`}
-											className="sticky left-0 z-10 flex items-center border-b border-r bg-background px-4 py-3 font-medium"
+											className="sticky left-0 z-20 flex items-center border-b border-r bg-background px-4 py-3 font-medium shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]"
 										>
 											Oda {room.number}
 										</div>
 
 										{/* Room Cells */}
-										{daysInMonth.map((day) => {
+										{daysInMonth.map((day, dayIndex) => {
 											const dateStr = formatDateToString(day);
 											const reservation = getReservationsForRoomAndDate(room.id, dateStr, reservations);
 
-											// Check if this is the first day of a reservation
-											const isFirstDay = reservation && reservation.checkIn === dateStr;
+											// Check if this is the first day of this reservation IN THIS MONTH VIEW
+											const isFirstDayInView = reservation && (
+												// Either it's the actual first day of the reservation
+												reservation.checkIn === dateStr ||
+												// Or it's the first day of the month and the reservation started earlier
+												(dayIndex === 0 && reservation.checkIn < dateStr)
+											);
+											
 											const isLastDay = reservation && reservation.checkOut === dateStr;
 
-											// Calculate span for multi-day reservations
-											let spanDays = 1;
-											if (reservation && isFirstDay) {
-												const checkInDate = new Date(reservation.checkIn);
-												const checkOutDate = new Date(reservation.checkOut);
+											let spanDays = 1;	
+											if (reservation && isFirstDayInView) {
 												const remainingDays = daysInMonth.filter((d) => {
 													const dStr = formatDateToString(d);
-													return dStr >= reservation.checkIn && dStr <= reservation.checkOut;
+													return dStr >= dateStr && dStr <= reservation.checkOut;
 												});
 												spanDays = remainingDays.length;
 											}
 
-											// Render with popover if it's a reservation
-											if (reservation && isFirstDay) {
+											if (reservation && !isFirstDayInView) {
+												return null;
+											}
+
+											if (reservation && isFirstDayInView) {
 												return (
 													<ReservationPopover key={`${room.id}-${dateStr}`} reservation={reservation} room={room}>
 														<div
@@ -137,7 +141,7 @@ export function CalendarGrid({ rooms, reservations, onCreateReservation }: Calen
 																'bg-blue-500 text-white hover:bg-blue-600',
 																'dark:bg-blue-600 dark:hover:bg-blue-700',
 																'border-r border-b border-blue-600 dark:border-blue-700',
-																isFirstDay && 'rounded-l-md',
+																(reservation.checkIn === dateStr) && 'rounded-l-md',
 																isLastDay && 'rounded-r-md'
 															)}
 															style={{
@@ -158,14 +162,14 @@ export function CalendarGrid({ rooms, reservations, onCreateReservation }: Calen
 													key={`${room.id}-${dateStr}`}
 													reservation={reservation}
 													isAvailable={!reservation}
-													isFirstDay={isFirstDay}
+													isFirstDay={isFirstDayInView}
 													isLastDay={isLastDay}
 													spanDays={spanDays}
 													onClick={() => !reservation && handleCellClick(room, dateStr)}
 												/>
 											);
 										})}
-									</>
+									</div>
 								))}
 							</div>
 						</div>
