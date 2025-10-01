@@ -12,6 +12,7 @@ import { RoomInfoCard } from './components/room-info-card';
 import { GuestInfoCard } from './components/guest-info-card';
 import { ReservationDetailsCard } from './components/reservation-details-card';
 import { ActivityTimeline } from './components/activity-timeline';
+import { RoomGallery } from './components/room-gallery';
 
 export default function RoomDetail() {
 	const navigate = useNavigate();
@@ -83,6 +84,11 @@ export default function RoomDetail() {
 							Temizlenmeli
 						</Button>
 					)}
+				</div>
+
+				{/* Room Gallery */}
+				<div className="mb-4">
+					<RoomGallery roomType={room.type} roomNumber={room.number} roomId={room.id} />
 				</div>
 
 				{/* Top Section: Room Info + Guest Info */}

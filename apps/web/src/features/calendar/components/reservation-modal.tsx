@@ -36,6 +36,11 @@ interface ReservationModalProps {
 	onCreateReservation: (reservation: Omit<Reservation, 'id'>) => void;
 }
 
+const parseDateString = (dateStr: string): Date => {
+	const [year, month, day] = dateStr.split('-').map(Number);
+	return new Date(year, month - 1, day -1);
+};
+
 export function ReservationModal({
 	open,
 	onOpenChange,
@@ -44,7 +49,7 @@ export function ReservationModal({
 	reservations,
 	onCreateReservation,
 }: ReservationModalProps) {
-	const [checkIn, setCheckIn] = useState<Date | undefined>(selectedDate ? new Date(selectedDate) : undefined);
+	const [checkIn, setCheckIn] = useState<Date | undefined>(selectedDate ? parseDateString(selectedDate) : undefined);
 	const [checkOut, setCheckOut] = useState<Date | undefined>();
 	const [guestName, setGuestName] = useState('');
 	const [guestEmail, setGuestEmail] = useState('');
@@ -56,7 +61,7 @@ export function ReservationModal({
 	// Reset form when modal opens/closes
 	useEffect(() => {
 		if (open && selectedDate) {
-			setCheckIn(new Date(selectedDate));
+			setCheckIn(parseDateString(selectedDate));
 		} else if (!open) {
 			setCheckIn(undefined);
 			setCheckOut(undefined);
@@ -282,4 +287,3 @@ export function ReservationModal({
 		</Dialog>
 	);
 }
-
